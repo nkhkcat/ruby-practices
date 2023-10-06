@@ -13,7 +13,6 @@ month = options['m'].to_i
 this_year = Date.today.year
 this_month = Date.today.month
 today = Date.today.day
-
 if is_year_nil && is_month_nil
   year = this_year
   month = this_month
@@ -23,24 +22,16 @@ elsif is_month_nil
   puts 'コマンドラインオプション-mで月も指定して下さい'
   return
 end
-
 last_day = Date.new(year, month, -1)
 first_wday = Date.new(year, month, 1).wday
-blank_day_number = first_wday - 1
 
 # カレンダーを表示する
 print "      #{month}月 #{year}\n"
-
-days = %w[日 月 火 水 木 金 土]
-days.each do |day|
-  print "#{day} "
-end
+%w[日 月 火 水 木 金 土].each { |day| print "#{day} " }
 print "\n"
 
 # その月の初日の前まで空白を追加する
-for num in 0..blank_day_number do
-  print '   '
-end
+0..first_wday.times { print '   ' }
 
 # 日付を表示する
 i = 1
@@ -55,13 +46,8 @@ while i <= last_day.day
   else
     print "#{i} "
   end
-
-  # 合計7日で改行をする
-  total_7day = i + first_wday
-  if total_7day % 7 == 0
-    print "\n"
-  end
-
+  total_7days = i + first_wday
+  print "\n" if (total_7days % 7).zero?
   i += 1
 end
 
