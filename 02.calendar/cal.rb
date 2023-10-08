@@ -34,21 +34,19 @@ print "\n"
 0..first_wday.times { print '   ' }
 
 # 日付を表示する
-i = 1
-while i <= last_day.day
-  if year == this_year && month == this_month && i == today	# 日付が今日の場合は色を反転させる
+(1..last_day.day).each do |day|
+  if year == this_year && month == this_month && day == today	# 日付が今日の場合は色を反転させる
     print "\e[47m\e[30m"
-    print " #{i}"
+    print " #{day}"
     print "\e[0m"
     print ' '
-  elsif i <= 9 # 列を揃えるために、日付が一桁の場合は数字の前に半角スペースを1つ追加する
-    print " #{i} "
+  elsif day <= 9 # 列を揃えるために、日付が一桁の場合は数字の前に半角スペースを1つ追加する
+    print " #{day} "
   else
-    print "#{i} "
+    print "#{day} "
   end
-  total_7days = i + first_wday
+  total_7days = day + first_wday
   print "\n" if (total_7days % 7).zero?
-  i += 1
 end
 
 print "\n\n"
