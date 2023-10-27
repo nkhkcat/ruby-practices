@@ -8,12 +8,12 @@ COLUMNS_NUMBER = 3
 def main
   opt = OptionParser.new
   opt.parse!(ARGV)
-  if !Dir.exist?(ARGV[0]) && !File.exist?(ARGV[0])
+  path = ARGV.empty? ? '.' : ARGV[0]
+  if !Dir.exist?(path) && !File.exist?(path)
     puts "ls: #{ARGV[0]}: No such file or directory"
     exit
   end
 
-  path = ARGV.empty? ? '.' : ARGV[0]
   files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
 
   vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
