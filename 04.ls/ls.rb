@@ -3,6 +3,8 @@
 
 require 'optparse'
 
+COLUMNS_NUMBER = 3
+
 def main
   opt = OptionParser.new
   opt.parse!(ARGV)
@@ -14,8 +16,7 @@ def main
   path = ARGV.empty? ? '.' : ARGV[0]
   files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
 
-  columns_number = 3
-  vertical_array = split_array_vertically(files, columns_number)
+  vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
 
   vertical_array.each do |file_array|
     file_array.each do |file|
