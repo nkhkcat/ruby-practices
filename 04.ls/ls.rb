@@ -21,7 +21,7 @@ def main
     file_array.each do |file|
       printf('%-20s', file)
     end
-    print("\n")
+    puts
   end
 end
 
