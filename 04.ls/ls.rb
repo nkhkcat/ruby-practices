@@ -20,7 +20,8 @@ def main
 
   vertical_array.each do |file_array|
     file_array.each do |file|
-      printf('%-20s', file)
+      file_name = file.ljust(20) + "        "
+      print file_name
     end
     puts
   end
