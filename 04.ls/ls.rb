@@ -11,7 +11,7 @@ def main
   path = ARGV.empty? ? '.' : ARGV[0]
   if !Dir.exist?(path) && !File.exist?(path)
     puts "ls: #{ARGV[0]}: No such file or directory"
-    exit
+    exit(1)
   end
 
   files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
