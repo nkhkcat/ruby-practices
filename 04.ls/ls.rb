@@ -16,11 +16,16 @@ def main
 
   files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
 
+  max_file_name_length = 0
+  files.each do |file|
+    max_file_name_length = file.length if file.length > max_file_name_length
+  end
+
   vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
 
   vertical_array.each do |file_array|
     file_array.each do |file|
-      file_name = file.ljust(20) + "        "
+      file_name = file.ljust(max_file_name_length) + "        "
       print file_name
     end
     puts
