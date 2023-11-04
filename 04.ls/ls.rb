@@ -6,15 +6,19 @@ require 'optparse'
 COLUMNS_NUMBER = 3
 
 def main
-  opt = OptionParser.new
-  opt.parse!(ARGV)
+  options = {}
+  OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true }}.parse!(ARGV)
   path = ARGV.empty? ? '.' : ARGV[0]
   if !Dir.exist?(path) && !File.exist?(path)
     puts "ls: #{ARGV[0]}: No such file or directory"
     exit(1)
   end
 
-  files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
+  if options[:show_all]
+    files = Dir.entries(path).sort
+  else
+    files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
+  end
 
   max_file_name_length = 0
   files.each do |file|
