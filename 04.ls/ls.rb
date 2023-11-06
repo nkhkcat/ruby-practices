@@ -6,8 +6,12 @@ require 'optparse'
 COLUMNS_NUMBER = 3
 
 def main
+  show_file_names(file_names)
+end
+
+def file_names
   options = {}
-  OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true }}.parse!(ARGV)
+  OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true } }.parse!(ARGV)
   path = ARGV.empty? ? '.' : ARGV[0]
   if !Dir.exist?(path) && !File.exist?(path)
     puts "ls: #{ARGV[0]}: No such file or directory"
@@ -15,24 +19,9 @@ def main
   end
 
   if options[:show_all]
-    files = Dir.entries(path).sort
+    Dir.entries(path).sort
   else
-    files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
-  end
-
-  max_file_name_length = 0
-  files.each do |file|
-    max_file_name_length = file.length if file.length > max_file_name_length
-  end
-
-  vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
-
-  vertical_array.each do |file_array|
-    file_array.each do |file|
-      file_name = file.ljust(max_file_name_length) + "        "
-      print file_name
-    end
-    puts
+    Dir.entries(path).delete_if { |file_name| file_name.start_with?('.') }.sort
   end
 end
 
@@ -46,6 +35,23 @@ def split_array_vertically(input_array, columns_number)
     result[target_group] << item
   end
   result
+end
+
+def show_file_names(file_name_list)
+  max_file_name_length = 0
+  file_name_list.each do |file|
+    max_file_name_length = file.length if file.length > max_file_name_length
+  end
+
+  vertical_array = split_array_vertically(file_name_list, COLUMNS_NUMBER)
+
+  vertical_array.each do |file_array|
+    file_array.each do |file|
+      file_name = "#{file.ljust(max_file_name_length)}        "
+      print file_name
+    end
+    puts
+  end
 end
 
 main
