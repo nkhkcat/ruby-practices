@@ -6,16 +6,10 @@ require 'optparse'
 COLUMNS_NUMBER = 3
 
 def main
-  opt = OptionParser.new
-  opt.parse!(ARGV)
-  path = ARGV.empty? ? '.' : ARGV[0]
-  if !Dir.exist?(path) && !File.exist?(path)
-    puts "ls: #{ARGV[0]}: No such file or directory"
-    exit(1)
-  end
+  options = {}
+  OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true } }.parse!(ARGV)
 
-  files = Dir.entries(path).delete_if { |file| file.start_with?('.') }.sort
-
+  files = Dir.entries(path).sort.delete_if { |file_name| !options[:show_all] && file_name.start_with?('.') }
   max_file_name_length = 0
   files.each do |file|
     max_file_name_length = file.length if file.length > max_file_name_length
@@ -25,11 +19,20 @@ def main
 
   vertical_array.each do |file_array|
     file_array.each do |file|
-      file_name = file.ljust(max_file_name_length) + "        "
+      file_name = "#{file.ljust(max_file_name_length)}        "
       print file_name
     end
     puts
   end
+end
+
+def path
+  path = ARGV.empty? ? '.' : ARGV[0]
+  if !Dir.exist?(path) && !File.exist?(path)
+    puts "ls: #{ARGV[0]}: No such file or directory"
+    exit(1)
+  end
+  path
 end
 
 def split_array_vertically(input_array, columns_number)
