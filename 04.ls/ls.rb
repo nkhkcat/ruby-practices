@@ -9,13 +9,13 @@ def main
   options = {}
   OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true } }.parse!(ARGV)
 
-  file_name_list = Dir.entries(path).sort.delete_if { |file_name| !options[:show_all] && file_name.start_with?('.') }
+  files = Dir.entries(path).sort.delete_if { |file_name| !options[:show_all] && file_name.start_with?('.') }
   max_file_name_length = 0
-  file_name_list.each do |file|
+  files.each do |file|
     max_file_name_length = file.length if file.length > max_file_name_length
   end
 
-  vertical_array = split_array_vertically(file_name_list, COLUMNS_NUMBER)
+  vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
 
   vertical_array.each do |file_array|
     file_array.each do |file|
