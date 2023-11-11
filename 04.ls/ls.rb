@@ -7,9 +7,13 @@ COLUMNS_NUMBER = 3
 
 def main
   options = {}
-  OptionParser.new { |opt| opt.on('-a') { options[:show_all] = true } }.parse!(ARGV)
+  OptionParser.new do |opt|
+    opt.on('-a') { options[:show_all] = true }
+    opt.on('-r') { options[:reverse] = true }
+  end.parse!(ARGV)
 
   files = Dir.entries(path).sort.delete_if { |file_name| !options[:show_all] && file_name.start_with?('.') }
+  files.reverse! if options[:reverse]
   max_file_name_length = 0
   files.each do |file|
     max_file_name_length = file.length if file.length > max_file_name_length
