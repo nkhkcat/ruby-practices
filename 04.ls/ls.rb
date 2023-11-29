@@ -15,7 +15,7 @@ def main
     show_long_format_info(files, options[:show_all])
     exit 0
   end
-  show_file_in_columns(files)
+  show_file_name_in_columns(files)
 end
 
 def parse_options
@@ -90,7 +90,7 @@ def show_long_format_info(files, show_all)
   end
 end
 
-def show_file_in_columns(files)
+def show_file_name_in_columns(files)
   max_file_name_length = files.max_by(&:length).length
   vertical_array = split_array_vertically(files, COLUMNS_NUMBER)
   vertical_array.each do |file_array|
