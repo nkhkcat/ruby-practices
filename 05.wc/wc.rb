@@ -4,11 +4,23 @@
 require 'optparse'
 
 def main
-  exit if ARGV.empty?
+  ARGV.empty? ? count_data_from_stdin : count_data_from_file
+end
 
-  # 標準入力を受け取る
+def count_data_from_stdin
+  line_count = word_count = byte_count = 0
+
+  ARGF.each_line do |line|
+    line_count += 1
+    word_count += line.split.size
+    byte_count += line.bytesize
+  end
+
+  puts line_count.to_s.rjust(8) + word_count.to_s.rjust(8) + byte_count.to_s.rjust(8)
+end
+
+def count_data_from_file
   options = parse_options
-
   ARGV.each do |arg|
     text = File.read(arg)
 
