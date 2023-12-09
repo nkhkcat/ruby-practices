@@ -4,10 +4,10 @@
 require 'optparse'
 
 def main
-  ARGV.empty? ? count_data_from_stdin : count_data_from_file
+  ARGV.empty? ? count_and_print_stdin_data : count_and_print_file_data
 end
 
-def count_data_from_stdin
+def count_and_print_stdin_data
   line_count = word_count = byte_count = 0
 
   ARGF.each_line do |line|
@@ -19,7 +19,7 @@ def count_data_from_stdin
   puts line_count.to_s.rjust(8) + word_count.to_s.rjust(8) + byte_count.to_s.rjust(8)
 end
 
-def count_data_from_file
+def count_and_print_file_data
   options = parse_options
   ARGV.each do |arg|
     text = File.read(arg)
