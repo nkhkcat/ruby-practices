@@ -21,24 +21,34 @@ end
 
 def count_and_print_file_data
   options = parse_options
-  ARGV.each do |arg|
-    text = File.read(arg)
+  total_line_count = total_word_count = total_byte_count = 0
 
-    total_lines = text.lines.count.to_s.rjust(8)
-    total_words = count_words(text).to_s.rjust(8)
-    total_bytes = text.bytesize.to_s.rjust(8)
-    file_name = " #{File.basename(arg)}"
+  ARGV.each do |file_name|
+    text = File.read(file_name)
+    line_count = text.lines.count
+    word_count = count_words(text)
+    byte_count = text.bytesize
 
-    if options.empty?
-      puts total_lines + total_words + total_bytes + file_name
-    else
-      print total_lines if options[:line_count]
-      print total_words if options[:word_count]
-      print total_bytes if options[:byte_count]
-      print file_name
-      puts
-    end
+    total_line_count += line_count
+    total_word_count += word_count
+    total_byte_count += byte_count
+
+    formatted_output = format_counts(line_count, word_count, byte_count, options)
+    puts "#{formatted_output} #{File.basename(file_name)}"
   end
+
+  return unless ARGV.size >= 2
+
+  total_formatted_output = format_counts(total_line_count, total_word_count, total_byte_count, options)
+  puts "#{total_formatted_output} total"
+end
+
+def format_counts(line_count, word_count, byte_count, options)
+  output = ''
+  output += line_count.to_s.rjust(8) if options.empty? || options[:line_count]
+  output += word_count.to_s.rjust(8) if options.empty? || options[:word_count]
+  output += byte_count.to_s.rjust(8) if options.empty? || options[:byte_count]
+  output
 end
 
 def parse_options
