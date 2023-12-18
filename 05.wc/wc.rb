@@ -33,14 +33,14 @@ def count_and_print_file_data
     total_word_count += word_count
     total_byte_count += byte_count
 
-    formatted_output = format_counts(line_count, word_count, byte_count, options)
-    puts "#{formatted_output} #{File.basename(file_name)}"
+    formatted_counts = format_counts(line_count, word_count, byte_count, options)
+    puts "#{formatted_counts} #{File.basename(file_name)}"
   end
 
   return unless ARGV.size >= 2
 
-  total_formatted_output = format_counts(total_line_count, total_word_count, total_byte_count, options)
-  puts "#{total_formatted_output} total"
+  total_formatted_counts = format_counts(total_line_count, total_word_count, total_byte_count, options)
+  puts "#{total_formatted_counts} total"
 end
 
 def format_counts(line_count, word_count, byte_count, options)
