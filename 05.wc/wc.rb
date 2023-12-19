@@ -32,7 +32,7 @@ def count_and_print_file_data
   ARGV.each do |file_name|
     text = File.read(file_name)
     line_count = text.lines.count
-    word_count = count_words(text)
+    word_count = text.split.size
     byte_count = text.bytesize
 
     total_line_count += line_count
@@ -54,7 +54,7 @@ def calc_max_counts_length
   ARGV.each do |file_name|
     text = File.read(file_name)
     line_count = text.lines.count
-    word_count = count_words(text)
+    word_count = text.split.size
     byte_count = text.bytesize
 
     current_max_count_length = [line_count, word_count, byte_count].max.to_s.length
@@ -79,11 +79,6 @@ def parse_options
     opt.on('-c') { options[:byte_count] = true }
   end.parse!(ARGV)
   options
-end
-
-def count_words(str)
-  ary = str.split(/\s+/)
-  ary.size
 end
 
 main
